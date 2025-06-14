@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+  <title>Metro Ticket Discount</title>
+</head>
+<body>
+
+  <marquee onmouseover="this.stop();" onmouseout="this.start();">
+  Hover over this text to pause the scroll.
+  
+</marquee>
+  <script>
+    let age=4;
+    let ticketPrice = 100;
+    let discount;
+    let gender = "male";
+    
+    if(age<=5) discount = 100;
+    else if(age >=6 && gender === "female") discount = 50;
+    else if(age >= 65 && gender === "female") discount = 50;
+    else if(age >=65) discount= 30;
+    else discount = 0;
+    
+    let newPrice = ticketPrice - ticketPrice*discount/100;
+
+    console.log(`your payable amount is ; ${newPrice}`);
+  </script>
+</body>
+</html>

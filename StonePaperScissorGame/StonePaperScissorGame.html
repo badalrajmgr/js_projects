@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <title>Cricket Game</title>
+   <style>
+      body{
+         text-align: center;
+      }
+      #images{
+         height:3cm;
+         width:2cm;
+         padding:5px;
+      }
+      #user-move,#result{
+         font-weight: bold;
+         font-size:20px;
+         color:rgb(20, 206, 26);
+      }
+      #score,#comp-move{
+         font-weight: bold;
+         font-size:20px;
+         color:brown;
+      }
+   </style>
+</head>
+<body>
+   <h1>Stone Paper Scissor Game</h1>
+   
+   <button onclick="
+      computerChoice = CompChoice() ;
+      getResult = setResult('stone',computerChoice);
+      showResult('rock',computerChoice,getResult);
+      
+   "><img id="images" src="rock.jpg" alt="rock"></button>
+
+   <button onclick="
+      computerChoice = CompChoice() ;
+      getResult = setResult('paper',computerChoice);
+      showResult('paper',computerChoice,getResult);
+   "><img id="images" src="paper.jpg" alt="paper"></button>
+
+   
+   <button onclick="
+      computerChoice = CompChoice() ;
+      getResult = setResult('scissor',computerChoice,);
+      showResult('scissor',computerChoice,getResult);   
+   "><img id="images" src="scissor.jpg" alt="scissor"></button><br><br>
+
+   <button style="background-color:red;color:white;font-size:20px;" onclick="
+      localStorage.clear()
+      resetScore();
+   " >Reset</button>
+   
+    <h3 id="user-move"></h3>
+    <h3 id="comp-move"></h3>
+    <h3 id="result"></h3>
+    <h3 id="score"></h3>
+
+
+<script>
+   let computerChoice;
+   let getResult;
+   
+   let scoreStr = localStorage.getItem('Score');
+   let score;
+   resetScore(scoreStr);
+
+   function resetScore(scoreStr) {
+      score = scoreStr ? JSON.parse(scoreStr):{
+         win : 0,
+         lost : 0,
+         tie : 0,
+         
+      };
+      score.displayScore = function(){
+            return `No of matches won ${score.win}, Lost:${score.lost}, Tie:${score.tie}`;
+      };
+      
+      document.querySelector('#user-move').innerText = `click on Image to play`;
+
+      document.querySelector('#comp-move').innerText = ``;
+
+      document.querySelector('#result').innerText = ``;
+     document.querySelector('#score').innerText = ` Score => win:${score.win} lost:${score.lost} and tie:${score.tie}`;
+   }
+   
+   function CompChoice(){
+      //this will generate random number between 0 and 3
+      let choice = Math.random()*3;
+      if(choice <=1) return 'rock';
+      else if(choice > 1 && choice <=2) return 'paper';
+      else return 'scissor';
+   }
+  
+
+   function setResult(userChoice,       computerChoice){ 
+      if(userChoice === 'rock'){
+         if(computerChoice==='rock'){
+            score.tie++;
+            return `it's a tie`;
+         }
+         if(computerChoice==='paper'){
+            score.lost++;
+            return 'computer won';
+         }
+         if(computerChoice==='scissor'){
+            score.win++;
+            return 'user won';
+         }
+      }
+      else if(userChoice === 'paper'){
+         if(computerChoice==='paper'){
+            score.tie++;
+            return `it's a tie`;
+         }
+         if(computerChoice==='scissor'){
+            score.lost++;
+            return 'computer won';
+         }
+         if(computerChoice==='rock'){
+            score.win++;
+            return 'user won';
+         }
+      }
+      else{
+         if(computerChoice==='scissor'){
+            score.tie++;
+            return `it's a tie`;
+         }
+         if(computerChoice==='rock'){
+            score.lost++;
+            return 'computer won';
+         }
+         if(computerChoice==='paper'){
+            score.win++;
+            return 'user won';
+         }
+      }  
+   }
+   
+   function showResult(userChoice,ComputerChoice,result){
+      localStorage.setItem('Score',  JSON.stringify(score));
+
+      document.querySelector('#user-move').innerText = `you have chosen: ${userChoice}`;
+
+      document.querySelector('#comp-move').innerText = `computer choice is: ${computerChoice}`;
+
+      document.querySelector('#result').innerText = `result: ${result}`;
+
+      document.querySelector('#score').innerText = ` score --> win:${score.win} lost:${score.lost} and tie:${score.tie}`;
+   }   
+   
+</script>
+</body>
+</html>
